@@ -42,3 +42,28 @@ body {
 .fatpixel {
   font-family: "fatpixel";
 }
+
+.planning-card-select {
+  width: calc(2/3 * 100%);
+  padding: 0;
+  border-bottom: 1px solid var(--foreground);
+
+  .mantine-Input-input {
+    color: oklch(98.7% 0.022 95.277);
+    font-family: "fatpixel";
+    background-color: transparent;
+  }
+}
+
+.mantine-Popover-dropdown {
+  background-color: var(--background);
+}
+
+.mantine-Input-input {
+  font-family: "fatpixel";
+  font-size: medium;
+  color: oklch(98.7% 0.022 95.277);
+  background-color: var(--background);
+  border: none;
+  box-shadow: none;
+}

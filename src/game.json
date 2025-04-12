@@ -1,0 +1,23 @@
+{
+  "created_at": "2023-10-01T12:00:00Z",
+  "updated_at": "2023-10-01T12:00:00Z",
+  "join_code": "ABC123",
+  "game_mode": "synchronous",
+  "game_state": "waiting",
+  "timer_length": 120,
+  "timer_start": "2025-04-05T12:00:00Z",
+  "is_timer_running": false,
+  "id": "1",
+  "card": {
+    "id": "1",
+    "first": ["hatch an egg", "make a sandwich", "get something ball-shaped through a hole or hoop in one shot", "kill 5 creatures of the same type", "take a selfie (and post to discord)"],
+    "second": ["play a mini game", "spend the night in a camp", "consume drugs or alcohol", "mine a diamond", "travel via public transportation"],
+    "third": ["read a book", "build a house (must have a door, window, and bed)", "catch 5 fish", "declare war", "drown"],
+    "fourth": ["plow and harvest 5 crop plots", "spell your name without using letters (e.g. objects)", "break or lose a limb", "transport something to its goal", "clean something"],
+    "fifth": ["automate a process", "drive a vehicle for one minute", "finish in first place", "land on another planet", "achieve a score of 100,000"],
+    "tiebreaker": "build an army of at least 100 units"
+  },
+  "players": [
+    
+  ]
+}

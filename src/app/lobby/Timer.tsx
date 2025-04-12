@@ -4,17 +4,18 @@ import React, { useEffect, useState } from 'react'
 
 interface TimerProps {
   lobby: Lobby
-  setLobby: (lobby: Lobby) => void
+  completeLobby: () => void
 }
 
 const TEN_MINUTES_AS_MS = 10 * 60 * 1000;
+const ONE_MINUTE_AS_MS = 1 * 60 * 1000;
 
 const Timer: React.FC<TimerProps> = ({
   lobby,
-  setLobby
+  completeLobby
 }) => {
   const [remainingTime, setRemainingTime] = useState<string | null>(null);
-  const [shouldShowWarning, setShouldShowWarning] = useState<boolean>(false);
+  const [warningLevel, setWarningLevel] = useState<number>(0);  // 0 = none, 1 = minor, 2 = major, 3 = critical
   const timerStart = new Date(lobby.timer_start);
 
   useEffect(() => {
@@ -34,15 +35,18 @@ const Timer: React.FC<TimerProps> = ({
     const timerEnd = new Date(timerStart.getTime() + lobby.timer_length * 60000);
     const remainingTime = timerEnd.getTime() - now.getTime();
 
-    if (!shouldShowWarning && remainingTime <= TEN_MINUTES_AS_MS) {
-      setShouldShowWarning(true);
+    // if (!warningLevel || warningLevel > 2 && remainingTime <= TEN_MINUTES_AS_MS) {
+    //   setWarningLevel(2);
+    // }
+    if (remainingTime <= ONE_MINUTE_AS_MS) {
+      setWarningLevel(3);
+    } else if (remainingTime <= TEN_MINUTES_AS_MS) {
+      setWarningLevel(2);
+    } else {
+      setWarningLevel(0);
     }
     if (remainingTime <= 0) {
-      setLobby(
-        {...lobby,
-        game_state: 'finished',
-        is_timer_running: false,}
-      );
+      completeLobby();
       return 'Time is up!';
     }
     const hours = Math.floor((remainingTime % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -53,7 +57,7 @@ const Timer: React.FC<TimerProps> = ({
 
   return (
     <div>
-      <p className={`text-xl ${shouldShowWarning ? 'text-red-300' : 'text-amber-50'}`}>{remainingTime}</p>
+      <p className={`text-xl ${warningLevel > 1 ? 'text-red-300' : 'text-amber-50'} ${warningLevel === 3 && 'animate-pulse'}`}>{remainingTime}</p>
     </div>
   )
 }

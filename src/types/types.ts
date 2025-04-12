@@ -1,11 +1,25 @@
+export interface PlanningObjective {
+  title: string
+  difficulty: string
+  isLocked: boolean
+}
+export interface PlanningCard {
+  first: PlanningObjective[]
+  second: PlanningObjective[]
+  third: PlanningObjective[]
+  fourth: PlanningObjective[]
+  fifth: PlanningObjective[]
+  tiebreaker: string
+}
+
 export interface Lobby {
-  created_at: string;
-  updated_at: string;
-  id: string;
+  created_at?: string;
+  updated_at?: string;
+  id?: string;
   card: BingoCard;
-  join_code: string;
+  join_code?: string;
   game_mode: 'synchronous' | 'asynchronous';
-  game_state: 'waiting' | 'playing' | 'finished';
+  game_state: 'planning' | 'waiting' | 'playing' | 'finished';
   timer_length: number; // in minutes
   timer_start: string; // ISO date string
   is_timer_running: boolean;
@@ -13,7 +27,7 @@ export interface Lobby {
 }
 
 export interface BingoCard {
-  id: string;
+  id?: string;
   name?: string;
   first: string[];
   second: string[];

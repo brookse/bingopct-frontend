@@ -57,7 +57,7 @@ const Timer: React.FC<TimerProps> = ({
 
   return (
     <div>
-      <p className={`text-xl ${warningLevel > 1 ? 'text-red-300' : 'text-amber-50'} ${warningLevel === 3 && 'animate-pulse'}`}>{remainingTime}</p>
+      <p className={`font-bold text-xl ${warningLevel > 1 ? 'text-red-300' : 'text-amber-50'} ${warningLevel === 3 && 'animate-pulse'}`}>{remainingTime}</p>
     </div>
   )
 }

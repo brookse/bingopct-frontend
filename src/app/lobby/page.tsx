@@ -3,7 +3,6 @@
 // import seedData from '@/seed.json';
 import gameData from '@/game.json';
 import { CompletionSquare, CompletionSummary, Lobby, Player } from "@/types/types";
-import { mToHms } from '@/utils/utils';
 import { Button } from '@mantine/core';
 import { useEffect, useState } from "react";
 import colors from 'tailwindcss/colors';
@@ -30,6 +29,7 @@ export default function LobbyPage() {
       // otherwise, create a lobby from the seeds
       const lobby = gameData as Lobby;
       setLobby(lobby);
+      setCompletionSummary({});
     }
   }, []);
 
@@ -159,11 +159,48 @@ export default function LobbyPage() {
   
   return (
     <div className='flex flex-col sm:flex-row items-center justify-center gap-4 h-screen p-8'>
-      <div className='fatpixel w-full sm:h-full sm:min-w-[250px] sm:max-w-[250px] flex flex-col items-start gap-6 p-4 bg-[#273B54] text-amber-50'>
-        <div className='flex flex-row justify-between w-full'>
-          {/* header */}
-          <div className='w-full'>
-            <div className='flex flex-row justify-between w-full'>
+      <div className='fatpixel w-full sm:h-full h-full sm:min-w-[250px] sm:max-w-[250px] flex flex-col items-start gap-6 p-4 bg-[#273B54] text-amber-50'>
+        <div className='flex flex-row justify-between w-full h-full'>
+          {/* local sidebar */}
+          <div className='w-full flex flex-col justify-between h-full'>
+            <div className='flex flex-col gap-4'>
+              <div className='flex flex-row justify-between items-baseline w-full'>
+                <h1 className="text-2xl skinnypixel">bingo%</h1>
+                { lobby?.game_state === 'waiting' && 
+                    <Button color='#534E66' className='text-amber-50' size='xs' onClick={beginGame}>
+                      Begin Game
+                    </Button>
+                  }
+              </div>
+              { lobby && lobby.is_timer_running && <Timer lobby={lobby} completeLobby={completeLobby} /> }
+
+              <div className='w-full'>
+                <div className='flex flex-row justify-between w-full'>
+                  <h2 className="text-lg skinnypixel">players</h2>
+                  { lobby && lobby.game_state === 'waiting' && lobby.players.length > 0 && <p>{lobby.players.filter(player => player.is_ready).length} / {lobby.players.length} ready</p> }
+                </div>
+                <div className='flex flex-col gap-3'>
+                  {lobby && lobby.players.map((player, index) => (
+                    <PlayerPreview
+                      lobby={lobby}
+                      key={player.id}
+                      player={player}
+                      me={me}
+                      place={index + 1}
+                      handleToggleReady={handleToggleReady}
+                      isWinner={lobby.game_state === 'finished' && lobby.players[0].id === player.id}
+                    />
+                ))}
+                </div>
+              </div>
+
+            </div>
+            { lobby && <Button onClick={clearSavedLobby} color={colors.red[300]} variant='subtle'>Clear Saved Lobby</Button> }
+          </div>
+
+          {/* networking sidebar */}
+          {/* <div className='w-full'>
+            <div className='flex flex-row justify-between items-baseline w-full'>
               <h1 className="text-2xl skinnypixel">bingo%</h1>
               { lobby && lobby.is_timer_running && <Timer lobby={lobby} completeLobby={completeLobby} /> }
               { lobby?.game_state === 'waiting' && 
@@ -174,7 +211,7 @@ export default function LobbyPage() {
             </div>
             { lobby?.game_state === 'waiting' &&
               <div>
-                {/* <div className='flex flex-row items-center'>
+                <div className='flex flex-row items-center'>
                   <p className='leading-none'>join code: {lobby.join_code}</p>
                   { lobby.join_code && <CopyButton value={lobby.join_code} timeout={2000}>
                     {({ copied, copy }) => (
@@ -185,42 +222,33 @@ export default function LobbyPage() {
                       </Tooltip>
                     )}
                   </CopyButton> }
-                </div> */}
+                </div>
                 <p>game time: {mToHms(lobby.timer_length)}</p>
               </div>
             }
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             { !hasJoined &&
               <div className='flex flex-col items-center'>
-                {/* <Button color='#534E66' className='text-amber-50' size='xs' onClick={joinGame}>
+                <Button color='#534E66' className='text-amber-50' size='xs' onClick={joinGame}>
                   Join Game
-                </Button> */}
-                {/* { lobby.players.length > 0 ? `${lobby.players.length} players` : 'no players yet' } */}
+                </Button>
+                { lobby.players.length > 0 ? `${lobby.players.length} players` : 'no players yet' }
               </div> 
             }
-          </div>
+          </div> */}
         </div>
 
         {/* players  */}
-        { hasJoined && 
+        {/* { hasJoined && 
           <div className='w-full'>
             <div className='flex flex-row justify-between w-full'>
               <h2 className="text-lg skinnypixel">players</h2>
               { lobby && lobby.game_state === 'waiting' && lobby.players.length > 0 && <p>{lobby.players.filter(player => player.is_ready).length} / {lobby.players.length} ready</p> }
             </div>
             <div className='flex flex-col gap-3'>
-              {/* <PlayerPreview
-                lobby={lobby}
-                key={me.id}
-                player={me}
-                me={me}
-                handleToggleReady={handleToggleReady}
-                isWinner={lobby.game_state === 'finished' && lobby.players[0].id === me.id}
-              /> */}
               {lobby && lobby.players.map((player, index) => (
-                // return player.id !== me.id && 
                 <PlayerPreview
                   lobby={lobby}
                   key={player.id}
@@ -233,13 +261,11 @@ export default function LobbyPage() {
             ))}
             </div>
           </div>
-        }
-
-        { lobby && <Button onClick={clearSavedLobby} color={colors.red[300]} variant='subtle'>Clear Saved Lobby</Button> }
+        } */}
       </div>
 
       {/* bingo card */}
-      <div className={`flex flex-col h-full max-h-[736px] ${lobby?.game_state === 'waiting' && 'border border-amber-50'} relative`}>
+      <div className={`flex flex-col h-full ${lobby?.game_state === 'waiting' && 'border border-amber-50'} relative`}>
         { lobby?.game_state === 'waiting' &&
           <p className='absolute w-full text-center text-xl top-1/2'>Objectives will be revealed once the game starts</p>
         }

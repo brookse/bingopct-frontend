@@ -265,7 +265,7 @@ export default function LobbyPage() {
       </div>
 
       {/* bingo card */}
-      <div className={`flex flex-col h-full ${lobby?.game_state === 'waiting' && 'border border-amber-50'} relative`}>
+      <div className={`flex flex-col h-full max-w-[90vh] ${lobby?.game_state === 'waiting' && 'border border-amber-50'} relative`}>
         { lobby?.game_state === 'waiting' &&
           <p className='absolute w-full text-center text-xl top-1/2'>Objectives will be revealed once the game starts</p>
         }

@@ -60,7 +60,7 @@ const BingoSquare: React.FC<BingoSquareProps> = ({
   }
 
   return (
-    <div className={`group transition-all px-4 w-1/5 max-w-[133px] overflow-hidden content-center border border-amber-50 text-amber-50 text-center fatpixel aspect-square ${completionSummary?.completed_at ? 'bg-[#534E66] cursor-default' : 'cursor-pointer hover:bg-[#273B54]'} ${lobby.game_state === 'playing' ? 'hover:scale-125 cursor-default' : ''}`} onClick={handleSetCompleted}>
+    <div className={`group transition-all px-4 w-1/5 overflow-hidden content-center border border-amber-50 text-amber-50 text-center fatpixel aspect-square ${completionSummary?.completed_at ? 'bg-[#534E66] cursor-default' : 'cursor-pointer hover:bg-[#273B54]'} ${lobby.game_state === 'playing' ? 'hover:scale-125 cursor-default' : ''}`} onClick={handleSetCompleted}>
       {/* objective. if complete and notes, half size. otherwise full. if hover and complete, none */}
       <div className={`transition-all flex flex-col justify-center items-center gap-2 leading-none ${!completionSummary?.completed_at ? 'h-full' : completionSummary?.completed_at && completionSummary?.notes ? 'h-1/2' : 'h-full'} ${completionSummary?.completed_at && 'group-hover:hidden'}`}>
         <div className={completionSummary?.completed_at ? 'group-hover:hidden' : 'block'}>{text}</div>

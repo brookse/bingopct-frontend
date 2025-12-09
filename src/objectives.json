@@ -48,7 +48,11 @@
       "plow and harvest 5 crop plots",
       "drive a vehicle for one minute",
       "mine a diamond/gem/3 different materials",
-      "drown"
+      "drown",
+      "pet a cat/dog/animal",
+      "explode something",
+      "gamble",
+      "do a dance"
     ],
     "medium": [
       "finish in first place",
@@ -104,7 +108,12 @@
       "free a creature from a cage",
       "get something ball-shaped through a hole or hoop in one shot",
       "automate a process",
-      "transport something to its goal"
+      "transport something to its goal",
+      "get sticky",
+      "flip a table",
+      "drive a tank",
+      "earn an achievement",
+      "Vandalize something / commit a petty crime"
     ],
     "hard": [
       "play a video game in a video game",

@@ -1,7 +1,7 @@
 'use client';
 
 // import seedData from '@/seed.json';
-import gameData from '@/game.json';
+import gameData from '@/game-two.json';
 import { CompletionSquare, CompletionSummary, Lobby, Player } from "@/types/types";
 import { Button } from '@mantine/core';
 import { useEffect, useState } from "react";

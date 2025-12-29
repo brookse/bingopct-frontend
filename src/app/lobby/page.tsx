@@ -158,7 +158,7 @@ export default function LobbyPage() {
   };
   
   return (
-    <div className='flex flex-col sm:flex-row items-center justify-center gap-4 h-screen p-8'>
+    <div className='flex flex-col sm:flex-row items-start justify-center gap-4 h-screen p-8'>
       <div className='fatpixel w-full sm:h-full h-full sm:min-w-[250px] sm:max-w-[250px] flex flex-col items-start gap-6 p-4 bg-[#273B54] text-amber-50'>
         <div className='flex flex-row justify-between w-full h-full'>
           {/* local sidebar */}
@@ -265,7 +265,7 @@ export default function LobbyPage() {
       </div>
 
       {/* bingo card */}
-      <div className={`flex flex-col h-full max-w-[90vh] ${lobby?.game_state === 'waiting' && 'border border-amber-50'} relative`}>
+      <div className={`flex flex-col h-full min-w-[600px] min-h-[600px] ${lobby?.game_state === 'waiting' && 'border border-amber-50'} relative`}>
         { lobby?.game_state === 'waiting' &&
           <p className='absolute w-full text-center text-xl top-1/2'>Objectives will be revealed once the game starts</p>
         }

@@ -14,7 +14,7 @@ interface APIReturn {
   finishGame: (join_code: string) => Promise<Lobby>
 }
 
-const API_BASE_URL = 'http://localhost:8080'
+const API_BASE_URL = 'https://bingo-pct-e87428930afe.herokuapp.com'
 
 export const useAPI = (): APIReturn => {
   const [isLoading, setIsLoading] = useState(false)

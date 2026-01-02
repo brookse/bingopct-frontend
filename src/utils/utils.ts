@@ -8,26 +8,63 @@ export const mToHms = (minutes: number) => {
 
 export const getNumBingos = (completionSummary: CompletionSummary, card: BingoCard) => {
   let numBingos = 0;
+  const bingos = []
 
   // test all rows (horizontal)
-  if (isHorizontalBingo(completionSummary, card.first)) numBingos++;
-  if (isHorizontalBingo(completionSummary, card.second)) numBingos++;
-  if (isHorizontalBingo(completionSummary, card.third)) numBingos++;
-  if (isHorizontalBingo(completionSummary, card.fourth)) numBingos++;
-  if (isHorizontalBingo(completionSummary, card.fifth)) numBingos++;
+  if (isHorizontalBingo(completionSummary, card.first)) {
+    numBingos++;
+    bingos.push('hor-1')
+  }
+  if (isHorizontalBingo(completionSummary, card.second)) {
+    numBingos++;
+    bingos.push('hor-2')
+  }
+  if (isHorizontalBingo(completionSummary, card.third)) {
+    numBingos++;
+    bingos.push('hor-3')
+  }
+  if (isHorizontalBingo(completionSummary, card.fourth)) {
+    numBingos++;
+    bingos.push('hor-4')
+  }
+  if (isHorizontalBingo(completionSummary, card.fifth)) {
+    numBingos++;
+    bingos.push('hor-5')
+  }
 
   // test all columns (vertical)
-  if (isVerticalBingo(completionSummary, card, 0)) numBingos++;
-  if (isVerticalBingo(completionSummary, card, 1)) numBingos++;
-  if (isVerticalBingo(completionSummary, card, 2)) numBingos++;
-  if (isVerticalBingo(completionSummary, card, 3)) numBingos++;
-  if (isVerticalBingo(completionSummary, card, 4)) numBingos++;
+  if (isVerticalBingo(completionSummary, card, 0)) {
+    numBingos++;
+    bingos.push('ver-1')
+  }
+  if (isVerticalBingo(completionSummary, card, 1)) {
+    numBingos++;
+    bingos.push('ver-2')
+  }
+  if (isVerticalBingo(completionSummary, card, 2)) {
+    numBingos++;
+    bingos.push('ver-3')
+  }
+  if (isVerticalBingo(completionSummary, card, 3)) {
+    numBingos++;
+    bingos.push('ver-4')
+  }
+  if (isVerticalBingo(completionSummary, card, 4)) {
+    numBingos++;
+    bingos.push('ver-5')
+  }
 
   // test all diagonals (diagonal)
-  if (isDiagonalBingo(completionSummary, [card.first[0], card.second[1], card.third[2], card.fourth[3], card.fifth[4]])) numBingos++;
-  if (isDiagonalBingo(completionSummary, [card.first[4], card.second[3], card.third[2], card.fourth[1], card.fifth[0]])) numBingos++;
+  if (isDiagonalBingo(completionSummary, [card.first[0], card.second[1], card.third[2], card.fourth[3], card.fifth[4]])) {
+    numBingos++;
+    bingos.push('diag-tl')
+  }
+  if (isDiagonalBingo(completionSummary, [card.first[4], card.second[3], card.third[2], card.fourth[1], card.fifth[0]])) {
+    numBingos++;
+    bingos.push('diag-bl')
+  }
 
-  return numBingos;
+  return bingos;
 }
 
 export const isHorizontalBingo = (completionSummary: CompletionSummary, row: string[]) => {

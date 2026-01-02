@@ -1,14 +1,16 @@
 'use client'
-import { CompletionSquare, Lobby, Player } from '@/types/types';
+import { CompletionSquare, Lobby, Player, PlayerState } from '@/types/types';
 import { getNumBingos } from '@/utils/utils';
 import { Button, Textarea } from '@mantine/core';
 import React from 'react';
 import colors from 'tailwindcss/colors';
+import { useAPI } from '../api/endpoints';
 
 interface BingoSquareProps {
   text: string
   completionSummary: CompletionSquare
   updateCompletionSummary: (text: string, summary: CompletionSquare) => void
+  updatePlayerState: (playerState: PlayerState) => void
   // setCompleted(text: string): void
   lobby: Lobby
   setLobby(lobby: Lobby): void
@@ -19,11 +21,14 @@ const BingoSquare: React.FC<BingoSquareProps> = ({
   text,
   completionSummary,
   updateCompletionSummary,
+  updatePlayerState,
   // setCompleted,
   lobby,
   setLobby,
   me
 }) => {
+  const { updateState } = useAPI();
+  
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSetCompleted = (event: any) => {
     event.preventDefault();
@@ -41,15 +46,23 @@ const BingoSquare: React.FC<BingoSquareProps> = ({
     const squareCompletion = {
       completed_at: new Date().toISOString(),
     };
-    updateCompletionSummary(text, squareCompletion);
     player.player_state.completion_summary[text] = squareCompletion;
-    player.player_state.total_objectives += 1;
+    // player.player_state.total_objectives += 1;
     // todo check for bingos
-    player.player_state.total_bingo = getNumBingos(player.player_state.completion_summary, lobby.card);
-    lobbyCopy.players[playerIndex] = player;
-    setLobby(lobbyCopy);
+    // player.player_state.total_bingo = getNumBingos(player.player_state.completion_summary, lobby.card);
+    // lobbyCopy.players[playerIndex] = player;
+    // setLobby(lobbyCopy);
+
+    const newObjectives = player.player_state.total_objectives += 1;
+    const newBingos = getNumBingos(player.player_state.completion_summary, lobby.card)
+    updatePlayerState({
+      total_bingo: newBingos,
+      total_objectives: newObjectives,
+      completion_summary: player.player_state.completion_summary,
+    });
   };
 
+  // TODO use updatePlayerState to persist
   const handleSaveNotes = (n: string) => {
     if (completionSummary?.completed_at) {
       const squareCompletion = {
@@ -60,6 +73,7 @@ const BingoSquare: React.FC<BingoSquareProps> = ({
     }
   }
 
+  // TODO use updatePlayerState to persist
   const resetObjective = () => {
     if (lobby.game_state !== 'playing') return;
     // reset the objective
@@ -71,13 +85,20 @@ const BingoSquare: React.FC<BingoSquareProps> = ({
       completed_at: undefined,
       notes: undefined,
     };
-    updateCompletionSummary(text, squareCompletion);
+    // updateCompletionSummary(text, squareCompletion);
     delete player.player_state.completion_summary[text];
-    player.player_state.total_objectives -= 1;
-    // todo check for bingos
-    player.player_state.total_bingo = getNumBingos(player.player_state.completion_summary, lobby.card);
-    lobbyCopy.players[playerIndex] = player;
-    setLobby(lobbyCopy);
+    // player.player_state.total_objectives -= 1;
+    // player.player_state.total_bingo = getNumBingos(player.player_state.completion_summary, lobby.card);
+    // lobbyCopy.players[playerIndex] = player;
+    // setLobby(lobbyCopy);
+
+    const newObjectives = player.player_state.total_objectives -= 1;
+    const newBingos = getNumBingos(player.player_state.completion_summary, lobby.card)
+    updatePlayerState({
+      total_bingo: newBingos,
+      total_objectives: newObjectives,
+      completion_summary: player.player_state.completion_summary,
+    });
   }
 
   return (

@@ -13,8 +13,6 @@ import BingoSquare from './BingoSquare';
 import PlayerPreview from './PlayerPreview';
 import Timer from './Timer';
 
-// TODO once game starts, sort player list by bingos, then objectives, then name
-
 let sec = 0;
 export default function LobbyPage() {
   const { isLoading, getLobby, joinLobby, updateLobby, finishGame, setReadyState, updateState, startGame } = useAPI();
@@ -29,6 +27,7 @@ export default function LobbyPage() {
   const [me, setMe] = useState<Player>();
   const [lobby, setLobby] = useState<Lobby>();
   const [completionSummary, setCompletionSummary] = useState<CompletionSummary>();
+  const [previewingCard, setPreviewingCard] = useState<Player | null>(null);
 
   useEffect(() => {
     // when the user enters the lobby, check if they have a lobby in local storage
@@ -263,7 +262,7 @@ export default function LobbyPage() {
     finishGame(joinCode).then((finishedLobby) => {
       setLobby(finishedLobby);
     }).catch((err) => {
-      console.error('supressing finishGame error:', err);
+      console.log('supressing finishGame error:', err);
     });
   };
 
@@ -276,6 +275,15 @@ export default function LobbyPage() {
     setMe(undefined);
     setJoinCode('');
   };
+
+  const handlePreviewCard = (player: Player) => {
+    setCompletionSummary(player.player_state.completion_summary);
+    if (player.id === me?.id) {
+      setPreviewingCard(null)
+    } else {
+      setPreviewingCard(player);
+    }
+  }
   
   return (
     <div className='flex flex-col sm:flex-row items-start justify-center gap-4 h-screen p-8'>
@@ -355,6 +363,8 @@ export default function LobbyPage() {
                   me={me}
                   place={index + 1}
                   handleToggleReady={handleToggleReady}
+                  previewCard={handlePreviewCard}
+                  currentlyPreviewing={previewingCard}
                   isWinner={lobby.game_state === 'finished' && lobby.players[0].id === player.id}
                 />
             ))}
